@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% block title %}
+  Admin Panel
+{% endblock title %}
+{% block logo %}
+  관리자용
+{% endblock logo %}
+{% block
+  nav_content %}
+  <div class="nav-content" id="nav-tab">
+    <ul class="tabs tabs-transparent">
+      <li class="tab">
+        <a href="menu">메뉴 관리</a>
+      </li>
+      <li class="tab">
+        <a href="product">Test 2</a>
+      </li>
+      <li class="tab">
+        <a href="stats">Test 3</a>
+      </li>
+    </ul>
+  </div>
+{% endblock nav_content %}
+{% block content %}
+  <p>Select a tab to begin managing the system.</p>
+{% endblock content %}

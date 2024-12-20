@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}
+        Order Management
+      {% endblock title %}
+    </title>
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <nav class="nav-extended">
+      <div class="nav-wrapper">
+        <a href="/admin" class="waves-effect waves-light">
+          <i class="material-icons admin-button">settings</i>
+        </a>
+        <a href="/" class="brand-logo center" id="nav-title">
+          {% block logo %}
+            직원용
+          {% endblock logo %}
+        </a>
+      </div>
+      {% block nav_content %}
+      {% endblock nav_content %}
+    </nav>
+    <!-- Main Content -->
+    <main>
+      <div class="container" id="content">
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </main>
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Index Page JavaScript -->
+    <script src="../static/js/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+{% block title %}
+  Menu Management
+{% endblock title %}
+{% block content %}
+  <h1>Menu Management</h1>
+  <ul>
+    {% for item in menu_items %}
+      {% with item=item %}
+        {% include "components/card.html" %}
+      {% endwith %}
+    {% endfor %}
+  </ul>
+{% endblock content %}
