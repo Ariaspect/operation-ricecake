@@ -1,0 +1,16 @@
+{% extends "admin/index.html" %}
+{% block title %}
+  Product Management
+{% endblock title %}
+{% block content %}
+  <div class="header-container">
+    <span class="flow-text">Product Management</span>
+    <a class="btn waves-effect waves-light purple darken-1 modal-trigger"
+       data-target="add_product_modal">New Item</a>
+  </div>
+  <div class="card-container">
+    {% for item in product_list %}
+      {% include "components/card.html" %}
+    {% endfor %}
+  </div>
+{% endblock content %}
