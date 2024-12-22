@@ -8,9 +8,59 @@
     <a class="btn waves-effect waves-light purple darken-1 modal-trigger"
        data-target="add_product_modal">New Item</a>
   </div>
+  <div id="add_product_modal" class="modal">
+    <div class="modal-content">
+      <h4>상품 추가하기</h4>
+      <form id="add_product_form" method="POST" action={{ url_for("admin.add_product") }}>
+        <!-- Product Name -->
+        <div class="input-field">
+          <i class="material-icons prefix">label</i>
+          <input id="product_name" name="name" type="text" class="validate" required>
+          <label for="product_name">Product Name</label>
+        </div>
+        <!-- Product Price -->
+        <div class="input-field">
+          <i class="material-icons prefix">attach_money</i>
+          <input id="product_price"
+                 name="price"
+                 type="number"
+                 min="0"
+                 class="validate"
+                 required>
+          <label for="product_price">Product Price</label>
+        </div>
+        <!-- Available Checkbox -->
+        <div class="input-field">
+          <label>
+            <input type="checkbox"
+                   name="available"
+                   id="product_available"
+                   class="filled-in"
+                   checked />
+            <span>Available</span>
+          </label>
+        </div>
+        <!-- Submit Button -->
+        <div class="modal-footer">
+          <button class="btn waves-effect waves-light" type="submit">
+            추가
+            <i class="material-icons right">send</i>
+          </button>
+          <a href="#!" class="modal-close btn-flat">취소</a>
+        </div>
+      </form>
+    </div>
+  </div>
   <div class="card-container">
     {% for item in product_list %}
       {% include "components/card.html" %}
     {% endfor %}
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const add_product_modal = document.querySelector('#add_product_modal');
+      M.Modal.init(add_product_modal);
+    });   
+  </script>
+  <script src="{{ url_for('static', filename='js/product.js') }}"></script>
 {% endblock content %}
