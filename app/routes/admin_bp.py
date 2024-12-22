@@ -30,5 +30,16 @@ def add_product():
     return redirect(url_for('admin.admin_product'))
 
 
-    # Return a JSON response
-    return jsonify({'status': 'success', 'name': product_name, 'price': product_price})
+@admin_bp.route('/delete_product/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    try:
+        # 데이터베이스에서 해당 ID의 항목 삭제
+        product = Product.query.get(product_id)
+        if product:
+            db.session.delete(product)
+            db.session.commit()
+            return {"message": "success"}, 200
+        return {"message": "Product not found"}, 404
+    except Exception as e:
+        print(f"Error: {e}")
+        return {"message": "error"}, 500
