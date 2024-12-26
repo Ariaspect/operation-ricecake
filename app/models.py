@@ -22,9 +22,9 @@ class Product(db.Model):
 class Option(db.Model):
     __tablename__ = 'option'
     option_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.Enum('slice', 'wrap', 'addition',
                      name='option_type'), nullable=False)
-    desc = db.Column(db.Text, nullable=False)
 
     # Relationships
     product_options = db.relationship(
