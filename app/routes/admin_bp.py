@@ -22,6 +22,10 @@ def admin_option():
     return render_template('admin/option.html', title="Admin Option Menu", option_list=options)
 
 
+@admin_bp.route('/add_product', methods=['GET'])
+def add_product_modal():
+    return render_template('admin/modal/add_product.html')
+
 
 @admin_bp.route('/add_product', methods=['POST'])
 def add_product():
@@ -32,6 +36,31 @@ def add_product():
     new_product = Product(
         name=product_name, price=product_price, available=product_available)
     db.session.add(new_product)
+    db.session.commit()
+
+    return redirect(url_for('admin.admin_product'))
+
+
+@admin_bp.route('/edit_product/<int:id>', methods=['GET'])
+def edit_product_modal(id: int):
+    product = Product.query.get(id)
+
+    if not product:
+        return f"Product not found for id: {id}", 404
+
+    return render_template('admin/modal/edit_product.html', product=product)
+
+
+@admin_bp.route('/edit_product/<int:id>', methods=['POST'])
+def edit_product(id: int):
+    product = Product.query.get(id)
+
+    if not product:
+        return f"Product not found for id: {id}", 404
+    product.name = request.form.get('name')
+    product.price = request.form.get('price', type=int)
+    product.available = 'available' in request.form
+
     db.session.commit()
 
     return redirect(url_for('admin.admin_product'))

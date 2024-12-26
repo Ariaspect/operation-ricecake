@@ -1,0 +1,43 @@
+<div id="edit_product_modal" class="modal">
+    <div class="modal-content">
+        <h4>상품 수정하기</h4>
+        <form id="edit_product_form" method="post" action={{ url_for("admin.edit_product", id=product.product_id) }}>
+            <!-- Product Name -->
+            <div class="input-field">
+                <i class="material-icons prefix">label</i>
+                <input id="product_name" name="name" type="text" class="validate" required value={{ product.name }}>
+                <label for="product_name" class="active">Product Name</label>
+            </div>
+            <!-- Product Price -->
+            <div class="input-field">
+                <i class="material-icons prefix">attach_money</i>
+                <input id="product_price" name="price" type="number" min="0" class="validate" required value={{ product.price }}>
+                <label for="product_price" class="active">Product Price</label>
+            </div>
+            <!-- Available Checkbox -->
+            <div class="input-field">
+                <label>
+                    <input type="checkbox"
+                           name="available"
+                           id="product_available"
+                           class="filled-in"
+                           {% if product.available %}checked{% endif %} />
+                    <span>Available</span>
+                </label>
+            </div>
+            <!-- Submit Button -->
+            <div class="modal-footer">
+                <button class="btn waves-effect waves-light" type="submit">
+                    적용
+                    <i class="material-icons right">send</i>
+                </button>
+                <button class="btn  red waves-effect waves-light"
+                        onclick="delete_product({{ product.product_id }})">
+                    삭제
+                    <i class="material-icons right">close</i>
+                </button>
+                <a href="#!" class="modal-close btn-flat">취소</a>
+            </div>
+        </form>
+    </div>
+</div>
