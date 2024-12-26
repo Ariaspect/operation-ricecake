@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, request
-from app.models import db, Product
+from app.models import db, Product, Option
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -13,7 +13,14 @@ def admin_index():
 @admin_bp.route('/product')
 def admin_product():
     products = Product.query.all()
-    return render_template('admin/product.html', title="Admin Menu", product_list=products)
+    return render_template('admin/product.html', title="Admin Product Menu", product_list=products)
+
+
+@admin_bp.route('/option')
+def admin_option():
+    options = Option.query.all()
+    return render_template('admin/option.html', title="Admin Option Menu", option_list=options)
+
 
 
 @admin_bp.route('/add_product', methods=['POST'])
@@ -28,6 +35,21 @@ def add_product():
     db.session.commit()
 
     return redirect(url_for('admin.admin_product'))
+
+
+@admin_bp.route('/add_option', methods=['POST'])
+def add_option():
+    option_name = request.form.get('name')
+    option_type = request.form.get('type')
+
+    new_option = Option(
+        name=option_name,
+        type=option_type
+    )
+    db.session.add(new_option)
+    db.session.commit()
+
+    return redirect(url_for('admin.admin_option'))
 
 
 @admin_bp.route('/delete_product/<int:product_id>', methods=['POST'])

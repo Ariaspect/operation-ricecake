@@ -13,9 +13,29 @@ body {
 }
 
 .card {
-  margin: 0;
+  margin: 1px;
 }
 
+.option-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: 1fr;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  justify-content: left;
+}
+
+.option-container::-webkit-scrollbar {
+  display: none;
+}
+
+.card.option {
+  width: 100px;
+}
+
+.divider {
+  margin-bottom: 20px;
 .delete-btn {
   padding: 0;
   margin: 0;

@@ -1,0 +1,59 @@
+{% extends "admin/index.html" %}
+{% block title %}
+  Option Management
+{% endblock title %}
+{% block content %}
+  <div class="header-container">
+    <span class="flow-text">Option Management</span>
+    <a class="btn waves-effect waves-light purple darken-1 modal-trigger"
+       data-target="add_option_modal">New Item</a>
+  </div>
+  <div id="add_option_modal" class="modal">
+    <div class="modal-content">
+      <h4>Add New Option</h4>
+      <form id="add_option_form" method="post" action={{ url_for("admin.add_option") }}>
+        <div class="input-field">
+          <i class="material-icons prefix">label</i>
+          <input id="option_name" name="name" type="text" class="validate" required>
+          <label for="option_name">Option Name</label>
+        </div>
+        <div class="input-field">
+          <select id="option_type" name="type" required>
+            <option value="" disabled selected>Select Type</option>
+            <option value="slice">Slice</option>
+            <option value="wrap">Wrap</option>
+            <option value="addition">Addition</option>
+          </select>
+          <label for="option_type">Option Type</label>
+        </div>
+        <div class="modal-footer">
+          <button class="btn waves-effect waves-light" type="submit">
+            Add Option
+            <i class="material-icons right">send</i>
+          </button>
+          <a href="#!" class="modal-close btn-flat">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="option-section">
+    <span class="flow-text">Slice</span>
+    <div class="divider"></div>
+    <div class="option-container">
+      {% for item in option_list if item.type == 'slice' %}
+        {% include "components/option.html" %}
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const add_product_modal = document.querySelector('#add_option_modal');
+      M.Modal.init(add_option_modal);
+
+      const option_type_select = document.querySelector('#option_type');
+      M.FormSelect.init(option_type_select);
+    });   
+  </script>
+  <script src="{{ url_for('static', filename='js/option.js') }}"></script>
+{% endblock content %}
