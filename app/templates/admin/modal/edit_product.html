@@ -1,11 +1,16 @@
 <div id="edit_product_modal" class="modal">
     <div class="modal-content">
         <h4>상품 수정하기</h4>
-        <form id="edit_product_form" method="post" action={{ url_for("admin.edit_product", id=product.product_id) }}>
+        <form id="edit_product_form">
             <!-- Product Name -->
             <div class="input-field">
                 <i class="material-icons prefix">label</i>
-                <input id="product_name" name="name" type="text" class="validate" required value={{ product.name }}>
+                <input id="product_name"
+                       name="name"
+                       type="text"
+                       class="validate"
+                       required
+                       value="{{ product.name }}">
                 <label for="product_name" class="active">Product Name</label>
             </div>
             <!-- Product Price -->
@@ -27,12 +32,15 @@
             </div>
             <!-- Submit Button -->
             <div class="modal-footer">
-                <button class="btn waves-effect waves-light" type="submit">
+                <button class="btn waves-effect waves-light modal-close"
+                        onclick="edit_product({{ product.product_id }})"
+                        type="button">
                     적용
                     <i class="material-icons right">send</i>
                 </button>
-                <button class="btn  red waves-effect waves-light"
-                        onclick="delete_product({{ product.product_id }})">
+                <button class="btn red waves-effect waves-light modal-close"
+                        onclick="delete_product({{ product.product_id }})"
+                        type="button">
                     삭제
                     <i class="material-icons right">close</i>
                 </button>

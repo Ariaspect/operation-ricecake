@@ -1,7 +1,7 @@
 <div id="admin_modal" class="modal">
     <div class="modal-content">
         <h4>상품 추가하기</h4>
-        <form id="add_product_form" method="post" action={{ url_for("admin.add_product") }}>
+        <form id="add_product_form">
             <!-- Product Name -->
             <div class="input-field">
                 <i class="material-icons prefix">label</i>
@@ -32,7 +32,9 @@
             </div>
             <!-- Submit Button -->
             <div class="modal-footer">
-                <button class="btn waves-effect waves-light" type="submit">
+                <button class="btn waves-effect waves-light modal-close"
+                        onclick="add_product()"
+                        type="button">
                     추가
                     <i class="material-icons right">send</i>
                 </button>

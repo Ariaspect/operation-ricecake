@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect, request
+from flask import Blueprint, jsonify, render_template, url_for, redirect, request
 from app.models import db, Product, Option
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -38,7 +38,7 @@ def add_product():
     db.session.add(new_product)
     db.session.commit()
 
-    return redirect(url_for('admin.admin_product'))
+    return render_template('components/card.html', item=new_product), 201
 
 
 @admin_bp.route('/edit_product/<int:id>', methods=['GET'])
@@ -63,7 +63,7 @@ def edit_product(id: int):
 
     db.session.commit()
 
-    return redirect(url_for('admin.admin_product'))
+    return render_template('components/card.html', item=product), 200
 
 
 @admin_bp.route('/add_option', methods=['POST'])
