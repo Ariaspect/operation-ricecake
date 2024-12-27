@@ -8,6 +8,6 @@
                 <i class="material-icons red-text">close</i>
             </button>#}
         </div>
-        <p>Price: {{ item.price }} ₩</p>
+        <p>Price: {{ "{:,}".format(item.price) }} ₩</p>
     </div>
 </div>
