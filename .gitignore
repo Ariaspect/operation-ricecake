@@ -4,6 +4,6 @@
 
 database.db
 
-myenv
+myenv/
 
 config.py
