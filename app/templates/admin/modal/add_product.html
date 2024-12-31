@@ -5,7 +5,11 @@
             <!-- Product Name -->
             <div class="input-field">
                 <i class="material-icons prefix">label</i>
-                <input id="product_name" name="name" type="text" class="validate" required>
+                <input id="product_name"
+                       name="name"
+                       type="text" 
+                       class="validate" 
+                       required>
                 <label for="product_name">Product Name</label>
             </div>
             <!-- Product Price -->
@@ -18,6 +22,21 @@
                        class="validate"
                        required>
                 <label for="product_price">Product Price</label>
+            </div>
+            <!-- Option Checkbox -->
+            <div class="input-field">
+                <h5>Options</h5>
+                {% for type, options in grouped_options %}
+                <h6>{{ type }}</h6> <!-- Type 헤더 -->
+                {% for option in options %}
+                <div class="checkbox-container">
+                    <label>
+                        <input type="checkbox" name="options" value="{{ option.option_id }}">
+                        <span>{{ option.name }}</span>
+                    </label>
+                </div>
+                {% endfor %}
+                {% endfor %}
             </div>
             <!-- Available Checkbox -->
             <div class="input-field">
