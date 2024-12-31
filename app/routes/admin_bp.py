@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, request
 from app.models import db, Product, Option
+from itertools import groupby
+from operator import attrgetter
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -24,7 +26,13 @@ def admin_option():
 
 @admin_bp.route('/add_product', methods=['GET'])
 def add_product_modal():
-    return render_template('admin/modal/add_product.html')
+    # 모든 옵션 가져오기
+    options = Option.query.order_by(Option.type, Option.name).all()
+    
+    # type으로 그룹화
+    grouped_options = groupby(options, key=attrgetter('type'))
+    
+    return render_template('admin/modal/add_product.html', grouped_options=grouped_options)
 
 
 @admin_bp.route('/add_product', methods=['POST'])

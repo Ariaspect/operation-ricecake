@@ -3,3 +3,7 @@
 .vscode/
 
 database.db
+
+myenv
+
+config.py
