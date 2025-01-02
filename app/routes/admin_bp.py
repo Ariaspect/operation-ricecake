@@ -22,9 +22,17 @@ def admin_option():
     return render_template('admin/option.html', title="Admin Option Menu", option_list=options)
 
 
+def get_options_by_type(option_type):
+    return Option.query.filter_by(type=option_type).all()
+
+
 @admin_bp.route('/add_product', methods=['GET'])
 def add_product_modal():
-    return render_template('admin/modal/add_product.html')
+    option_types = ['slice', 'wrap', 'addition']
+    grouped_options = {option_type: get_options_by_type(
+        option_type) for option_type in option_types}
+
+    return render_template('admin/modal/add_product.html', grouped_options=grouped_options)
 
 
 @admin_bp.route('/add_product', methods=['POST'])

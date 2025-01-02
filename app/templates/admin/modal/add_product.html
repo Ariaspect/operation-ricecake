@@ -19,6 +19,22 @@
                        required>
                 <label for="product_price">Product Price</label>
             </div>
+            <!-- Option Checkbox -->
+            <div class="input-field">
+                <h5>Options</h5>
+                {% for option_type, options in grouped_options.items() %}
+                    <h6>{{ option_type }}</h6>
+                    <!-- Type 헤더 -->
+                    {% for option in options %}
+                        <div class="checkbox-container">
+                            <label>
+                                <input type="checkbox" name="options" value="{{ option.option_id }}">
+                                <span>{{ option.name }}</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
             <!-- Available Checkbox -->
             <div class="input-field">
                 <label>
