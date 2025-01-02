@@ -10,10 +10,10 @@
   <div class="nav-content" id="nav-tab">
     <ul class="tabs tabs-transparent">
       <li class="tab">
-        <a href="{{ url_for("admin.admin_product") }}">상품 관리</a>
+        <a href={{ url_for("admin.admin_product") }}>상품 관리</a>
       </li>
       <li class="tab">
-        <a href="option">옵션 관리</a>
+        <a href={{ url_for("admin.admin_option") }}>옵션 관리</a>
       </li>
       <li class="tab">
         <a href="stats">통계 관리</a>
