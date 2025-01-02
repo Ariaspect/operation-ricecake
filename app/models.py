@@ -25,6 +25,7 @@ class Option(db.Model):
     name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.Enum('slice', 'wrap', 'addition',
                      name='option_type'), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
 
     # Relationships
     product_options = db.relationship(
@@ -41,4 +42,3 @@ class ProductOption(db.Model):
         'product.product_id'), nullable=False)
     option_id = db.Column(db.Integer, db.ForeignKey(
         'option.option_id'), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
