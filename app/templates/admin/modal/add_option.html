@@ -1,0 +1,40 @@
+<div id="add_option_modal" class="modal">
+    <div class="modal-content">
+        <h4>Add New Option</h4>
+        <form id="add_option_form">
+            <div class="input-field">
+                <i class="material-icons prefix">label</i>
+                <input id="option_name" name="name" type="text" class="validate" required>
+                <label for="option_name">Option Name</label>
+            </div>
+            <div class="input-field">
+                <select id="option_type" name="type" required>
+                    <option value="" disabled selected>Select Type</option>
+                    <option value="slice">Slice</option>
+                    <option value="wrap">Wrap</option>
+                    <option value="addition">Addition</option>
+                </select>
+                <label for="option_type">Option Type</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">attach_money</i>
+                <input id="option_price"
+                       name="price"
+                       type="number"
+                       min="0"
+                       class="validate"
+                       required>
+                <label for="option_price">Option Price</label>
+            </div>
+            <div class="modal-footer">
+                <button class="btn waves-effect waves-light modal-close"
+                        onclick="add_option()"
+                        type="button">
+                    Add Option
+                    <i class="material-icons right">send</i>
+                </button>
+                <a href="#!" class="modal-close btn-flat">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

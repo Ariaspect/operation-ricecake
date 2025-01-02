@@ -66,19 +66,26 @@ def edit_product(id: int):
     return render_template('components/card.html', item=product), 200
 
 
+@admin_bp.route('/add_option', methods=['GET'])
+def add_option_modal():
+    return render_template('admin/modal/add_option.html')
+
+
 @admin_bp.route('/add_option', methods=['POST'])
 def add_option():
     option_name = request.form.get('name')
     option_type = request.form.get('type')
+    option_price = request.form.get('price', type=int)
 
     new_option = Option(
         name=option_name,
-        type=option_type
+        type=option_type,
+        price=option_price
     )
     db.session.add(new_option)
     db.session.commit()
 
-    return redirect(url_for('admin.admin_option'))
+    return render_template('components/option.html', item=new_option), 201
 
 
 @admin_bp.route('/delete_product/<int:product_id>', methods=['POST'])
