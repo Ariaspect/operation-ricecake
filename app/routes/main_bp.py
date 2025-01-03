@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template
 
-main_bp = Blueprint('main', __name__)
+main_bp = Blueprint("main", __name__)
 
 
-@main_bp.route('/')
+@main_bp.route("/")
 def index():
     print("main index")
 
-    return render_template('index.html', title="Main Page")
+    return render_template("index.html", title="Main Page")
