@@ -34,6 +34,16 @@ body {
   width: 100px;
 }
 
+.checkbox-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: 1fr;
+  gap: 4px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  justify-content: left;
+}
+
 .divider {
   margin-bottom: 20px;
 }

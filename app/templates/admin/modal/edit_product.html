@@ -19,6 +19,25 @@
                 <input id="product_price" name="price" type="number" min="0" class="validate" required value={{ product.price }}>
                 <label for="product_price" class="active">Product Price</label>
             </div>
+            <!-- Option Checkbox -->
+            <div class="input-field">
+                <h5>Options</h5>
+                {% for option_type, options in grouped_options.items() %}
+                    <h6>{{ option_type }}</h6>
+                    <!-- Type 헤더 -->
+                    <div class="checkbox-container">
+                        {% for option in options %}
+                            <label>
+                                <input type="checkbox"
+                                       name="options"
+                                       value="{{ option.option_id }}"
+                                       {% if option.option_id in selected_options %}checked{% endif %}>
+                                <span style="padding-right:20px">{{ option.name }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
             <!-- Available Checkbox -->
             <div class="input-field">
                 <label>

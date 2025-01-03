@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, render_template, url_for, redirect, request
-from app.models import db, Product, Option
+from app.models import db, Product, Option, ProductOption
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -26,24 +26,40 @@ def get_options_by_type(option_type):
     return Option.query.filter_by(type=option_type).all()
 
 
-@admin_bp.route('/add_product', methods=['GET'])
-def add_product_modal():
-    option_types = ['slice', 'wrap', 'addition']
-    grouped_options = {option_type: get_options_by_type(
-        option_type) for option_type in option_types}
+def get_options():
+    option_types = ["slice", "wrap", "addition"]
+    return {
+        option_type: get_options_by_type(option_type) for option_type in option_types
+    }
 
-    return render_template('admin/modal/add_product.html', grouped_options=grouped_options)
+
+@admin_bp.route("/add_product", methods=["GET"])
+def add_product_modal():
+    grouped_options = get_options()
+
+    return render_template(
+        "admin/modal/add_product.html", grouped_options=grouped_options
+    )
 
 
 @admin_bp.route('/add_product', methods=['POST'])
 def add_product():
-    product_name = request.form.get('name')
-    product_price = request.form.get('price', type=int)
-    product_available = 'available' in request.form
+    product_name = request.form.get("name")
+    product_price = request.form.get("price", type=int)
+    product_available = "available" in request.form
+    product_options = request.form.getlist("options")
 
     new_product = Product(
         name=product_name, price=product_price, available=product_available)
     db.session.add(new_product)
+    db.session.flush()
+
+    for option_id in product_options:
+        product_option = ProductOption(
+            product_id=new_product.product_id, option_id=option_id
+        )
+        db.session.add(product_option)
+
     db.session.commit()
 
     return render_template('components/card.html', item=new_product), 201
@@ -56,7 +72,17 @@ def edit_product_modal(id: int):
     if not product:
         return f"Product not found for id: {id}", 404
 
-    return render_template('admin/modal/edit_product.html', product=product)
+    grouped_options = get_options()
+    selected_options = [
+        product_option.option_id for product_option in product.product_options
+    ]
+
+    return render_template(
+        "admin/modal/edit_product.html",
+        product=product,
+        grouped_options=grouped_options,
+        selected_options=selected_options,
+    )
 
 
 @admin_bp.route('/edit_product/<int:id>', methods=['POST'])
@@ -65,9 +91,31 @@ def edit_product(id: int):
 
     if not product:
         return f"Product not found for id: {id}", 404
-    product.name = request.form.get('name')
-    product.price = request.form.get('price', type=int)
-    product.available = 'available' in request.form
+    product.name = request.form.get("name")
+    product.price = request.form.get("price", type=int)
+    product.available = "available" in request.form
+
+    old_options = {
+        product_option.option_id for product_option in product.product_options
+    }
+    new_options = set(map(int, request.form.getlist("options")))
+
+    for option_id in old_options - new_options:
+        target = next(
+            (
+                product_option
+                for product_option in product.product_options
+                if product_option.option_id == option_id
+            ),
+            None,
+        )
+        if target:
+            db.session.delete(target)
+    for option_id in new_options - old_options:
+        product_option = ProductOption(
+            product_id=product.product_id, option_id=option_id
+        )
+        db.session.add(product_option)
 
     db.session.commit()
 

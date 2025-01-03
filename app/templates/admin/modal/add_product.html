@@ -25,14 +25,14 @@
                 {% for option_type, options in grouped_options.items() %}
                     <h6>{{ option_type }}</h6>
                     <!-- Type 헤더 -->
-                    {% for option in options %}
-                        <div class="checkbox-container">
+                    <div class="checkbox-container">
+                        {% for option in options %}
                             <label>
                                 <input type="checkbox" name="options" value="{{ option.option_id }}">
-                                <span>{{ option.name }}</span>
+                                <span style="padding-right:20px">{{ option.name }}</span>
                             </label>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 {% endfor %}
             </div>
             <!-- Available Checkbox -->
