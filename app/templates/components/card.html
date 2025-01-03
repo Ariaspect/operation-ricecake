@@ -1,13 +1,8 @@
 <div class="card waves-effect"
      id="item-{{ item.product_id }}"
-     onclick="open_modal('{{ url_for("admin.edit_product", id=item.product_id) }}')">
+     onclick="open_modal('{{ target_modal }}')">
     <div class="card-content">
-        <div class="card-title">
-            {{ item.name }}
-            {#<button class="btn-flat delete-btn" onclick="delete_product({{ item.product_id }})">
-                <i class="material-icons red-text">close</i>
-            </button>#}
-        </div>
+        <div class="card-title">{{ item.name }}</div>
         <p>Price: {{ "{:,}".format(item.price) }} ₩</p>
     </div>
 </div>
