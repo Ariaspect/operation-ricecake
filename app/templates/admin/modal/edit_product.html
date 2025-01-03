@@ -1,6 +1,7 @@
 <div id="edit_product_modal" class="modal">
     <div class="modal-content">
         <h4>상품 수정하기</h4>
+        <div class="divider"></div>
         <form id="edit_product_form">
             <!-- Product Name -->
             <div class="input-field">
@@ -22,21 +23,22 @@
             <!-- Option Checkbox -->
             <div class="input-field">
                 <h5>Options</h5>
-                {% for option_type, options in grouped_options.items() %}
-                    <h6>{{ option_type }}</h6>
-                    <!-- Type 헤더 -->
-                    <div class="checkbox-container">
-                        {% for option in options %}
-                            <label>
-                                <input type="checkbox"
-                                       name="options"
-                                       value="{{ option.option_id }}"
-                                       {% if option.option_id in selected_options %}checked{% endif %}>
-                                <span style="padding-right:20px">{{ option.name }}</span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
+                <div class="option-section">
+                    {% for option_type, options in grouped_options.items() %}
+                        <h6>{{ option_type }}</h6>
+                        <div class="checkbox-container">
+                            {% for option in options %}
+                                <label>
+                                    <input type="checkbox"
+                                           name="options"
+                                           value="{{ option.option_id }}"
+                                           {% if option.option_id in selected_options %}checked{% endif %}>
+                                    <span style="padding-right:20px">{{ option.name }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <!-- Available Checkbox -->
             <div class="input-field">

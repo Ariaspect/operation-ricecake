@@ -30,6 +30,11 @@ body {
   display: none;
 }
 
+.option-section {
+  width: 90%;
+  margin-inline: auto;
+}
+
 .card.option {
   width: 100px;
 }
