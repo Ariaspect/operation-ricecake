@@ -9,7 +9,9 @@ function add_option() {
       return response.text();
     })
     .then((option) => {
-      option_container = document.querySelector(".option-container");
+      option_container = document.querySelector(
+        `#${form_data.get("type")}.option-container`
+      );
       option_container.insertAdjacentHTML("beforeend", option);
       M.toast({
         html: "Option Added successfully!",

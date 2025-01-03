@@ -18,8 +18,10 @@ def admin_product():
 
 @admin_bp.route('/option')
 def admin_option():
-    options = Option.query.all()
-    return render_template('admin/option.html', title="Admin Option Menu", option_list=options)
+    grouped_options = get_options()
+    return render_template(
+        "admin/option.html", title="Admin Option Menu", option_list=grouped_options
+    )
 
 
 def get_options_by_type(option_type):

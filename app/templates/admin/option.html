@@ -10,13 +10,15 @@
   </div>
   <div class="divider"></div>
   <div class="option-section">
-    <span class="flow-text">Slice</span>
-    <div class="divider"></div>
-    <div class="option-container">
-      {% for item in option_list if item.type == 'slice' %}
-        {% include "components/option.html" %}
-      {% endfor %}
-    </div>
+    {% for option_type, options in option_list.items() %}
+      <span class="flow-text">{{ option_type }}</span>
+      <div class="divider"></div>
+      <div id={{ option_type }} class="option-container">
+        {% for item in options %}
+          {% include "components/option.html" %}
+        {% endfor %}
+      </div>
+    {% endfor %}
   </div>
   <div id="modal_container"></div>
   <script src="{{ url_for('static', filename='js/option.js') }}"></script>
