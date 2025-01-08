@@ -68,6 +68,22 @@ body {
   width: 100px;
 }
 
+.card.option .card-content {
+  padding: 16px;
+}
+
+.option-content {
+  display: flex;
+  justify-content: center;
+}
+
+.option-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
 .checkbox-container {
   display: grid;
   grid-auto-flow: column;
