@@ -15,6 +15,35 @@ body {
 .card {
   margin: 1px;
 }
+.card.unavailable {
+  background-color: #f5f5f5;
+  opacity: 0.8;
+}
+
+.card.unavailable .card-content {
+  color: #757575;
+}
+
+.status-badge {
+  font-size: 12px;
+  background-color: #e0e0e0;
+  color: #757575;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card.unavailable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
 
 .option-container {
   display: grid;
