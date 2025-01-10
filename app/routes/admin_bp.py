@@ -6,7 +6,6 @@ admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
 @admin_bp.route("/")
 def admin_index():
-    print("admin index")
     return render_template("admin/index.html", title="Admin Dashboard")
 
 
@@ -77,9 +76,7 @@ def edit_product_modal(id: int):
         return f"Product not found for id: {id}", 404
 
     grouped_options = get_options()
-    selected_options = [
-        product_option.option_id for product_option in product.product_options
-    ]
+    selected_options = [option.option_id for option in product.available_options]
 
     return render_template(
         "admin/modal/edit_product.html",
@@ -99,17 +96,15 @@ def edit_product(id: int):
     product.price = request.form.get("price", type=int)
     product.available = "available" in request.form
 
-    old_options = {
-        product_option.option_id for product_option in product.product_options
-    }
+    old_options = {option.option_id for option in product.available_options}
     new_options = set(map(int, request.form.getlist("options")))
 
     for option_id in old_options - new_options:
         target = next(
             (
-                product_option
-                for product_option in product.product_options
-                if product_option.option_id == option_id
+                option
+                for option in product.available_options
+                if option.option_id == option_id
             ),
             None,
         )
@@ -144,11 +139,11 @@ def add_option():
     return render_template("components/option.html", item=new_option), 201
 
 
-@admin_bp.route("/delete_product/<int:product_id>", methods=["POST"])
-def delete_product(product_id):
+@admin_bp.route("/delete_product/<int:id>", methods=["POST"])
+def delete_product(id):
     try:
         # 데이터베이스에서 해당 ID의 항목 삭제
-        product = Product.query.get(product_id)
+        product = Product.query.get(id)
         if product:
             db.session.delete(product)
             db.session.commit()

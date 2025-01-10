@@ -27,8 +27,8 @@ def order_product_modal(id: int):
     product = Product.query.get(id)
     if not product:
         return f"Product not found for id: {id}", 404
-    grouped_options = group_options(product.product_options)
+    grouped_options = group_options(product.available_options)
 
-    render_template(
+    return render_template(
         "modal/order_product.html", product=product, grouped_options=grouped_options
     )

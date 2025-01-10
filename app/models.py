@@ -2,9 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 # Product Table
-
-
 class Product(db.Model):
     __tablename__ = "product"
     product_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -13,14 +12,15 @@ class Product(db.Model):
     available = db.Column(db.Boolean, nullable=False)
 
     # Relationships
-    product_options = db.relationship(
-        "ProductOption", backref="product", lazy=True, cascade="all, delete-orphan"
+    available_options = db.relationship(
+        "Option",
+        secondary="product_option",
+        back_populates="active_products",
+        lazy=True,
     )
 
 
 # Option Table
-
-
 class Option(db.Model):
     __tablename__ = "option"
     option_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -31,14 +31,15 @@ class Option(db.Model):
     price = db.Column(db.Integer, nullable=False)
 
     # Relationships
-    product_options = db.relationship(
-        "ProductOption", backref="option", lazy=True, cascade="all, delete-orphan"
+    active_products = db.relationship(
+        "Product",
+        secondary="product_option",
+        back_populates="available_options",
+        lazy=True,
     )
 
 
 # ProductOption Table
-
-
 class ProductOption(db.Model):
     __tablename__ = "product_option"
     product_option_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
