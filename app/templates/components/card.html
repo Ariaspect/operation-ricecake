@@ -1,8 +1,11 @@
-<div class="card waves-effect"
+<div class="card waves-effect {% if not item.available %}unavailable{% endif %}"
      id="item-{{ item.product_id }}"
      onclick="open_modal('{{ target_modal }}')">
     <div class="card-content">
-        <div class="card-title">{{ item.name }}</div>
+        <div class="card-title">
+            {{ item.name }}
+            {% if not item.available %}<span class="status-badge">Unavailable</span>{% endif %}
+        </div>
         <p>Price: {{ "{:,}".format(item.price) }} ₩</p>
     </div>
 </div>
