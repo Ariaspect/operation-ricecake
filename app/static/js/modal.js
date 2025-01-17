@@ -6,5 +6,8 @@ async function open_modal(url) {
   const instance = M.Modal.init(document.querySelector(".modal"));
   M.FormSelect.init(document.querySelectorAll("#modal_container select"));
 
+  const modalOpenEvent = new CustomEvent("modal:open");
+  document.dispatchEvent(modalOpenEvent);
+
   instance.open();
 }

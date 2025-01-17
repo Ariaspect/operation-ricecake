@@ -3,7 +3,6 @@
         <h4>{{ product.name }}</h4>
         <div class="divider"></div>
         <form id="order_product_form">
-            <div>{{ product.price }}</div>
             <!-- Option Checkbox -->
             <div class="input-field">
                 <h5>Options</h5>
@@ -13,7 +12,10 @@
                         <div class="checkbox-container">
                             {% for option in options %}
                                 <label>
-                                    <input type="checkbox" name="options" value="{{ option.option_id }}">
+                                    <input type="checkbox"
+                                           name="options"
+                                           value="{{ option.option_id }}"
+                                           data-price="{{ option.price }}">
                                     <span style="padding-right:20px">{{ option.name }}</span>
                                 </label>
                             {% endfor %}
@@ -23,11 +25,12 @@
             </div>
             <!-- Submit Button -->
             <div class="modal-footer">
+                <h5 id="product_subtotal">{{ product.price }}</h5>
                 <button class="btn waves-effect waves-light modal-close"
                         onclick="add_product_to_order()"
                         type="button">
-                    주문하기
-                    <i class="material-icons right">send</i>
+                    추가하기
+                    <i class="material-icons right">add</i>
                 </button>
                 <a href="#!" class="modal-close btn-flat">취소</a>
             </div>

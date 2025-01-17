@@ -115,6 +115,10 @@ body {
   padding: 16px 16px;
 }
 
+#product_subtotal::after {
+  content: " ₩";
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
