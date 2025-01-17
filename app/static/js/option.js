@@ -58,7 +58,7 @@ function delete_option(option_id) {
     .then((response) => response.json())
     .then((data) => {
       if (data.message === "success") {
-        const option = document.getElementById(`item-${option_id}`);
+        const option = document.querySelector(`#item-${option_id}`);
         if (option) option.remove();
 
         // 성공 Toast 표시
