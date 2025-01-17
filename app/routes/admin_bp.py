@@ -152,3 +152,18 @@ def delete_product(id):
     except Exception as e:
         print(f"Error: {e}")
         return {"message": "error"}, 500
+
+
+@admin_bp.route("/delete_option/<int:id>", methods=["POST"])
+def delete_option(id):
+    try:
+        # 데이터베이스에서 해당 ID의 항목 삭제
+        option = Option.query.get(id)
+        if option:
+            db.session.delete(option)
+            db.session.commit()
+            return {"message": "success"}, 200
+        return {"message": "Option not found"}, 404
+    except Exception as e:
+        print(f"Error: {e}")
+        return {"message": "error"}, 500
