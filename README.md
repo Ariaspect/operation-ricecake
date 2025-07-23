@@ -1,6 +1,8 @@
 # Operation: Ricecake
 
-Order Management Web
+Order Management Web App
+
+Legacy branch (~ 01/17/2025)
 
 ### Built With
 
