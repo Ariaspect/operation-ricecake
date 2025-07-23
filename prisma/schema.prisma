@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum OptionType {
+  slice
+  wrap
+  addition
+}
+
+model Product {
+  product_id        Int              @id @default(autoincrement())
+  name              String
+  price             Int
+  available         Boolean
+
+  available_options ProductOption[]
+  order_details     OrderDetail[]
+}
+
+model Option {
+  option_id        Int              @id @default(autoincrement())
+  name             String
+  type             OptionType
+  price            Int
+
+  active_products  ProductOption[]
+  order_options    OrderDetailOption[]
+}
+
+model ProductOption {
+  product_option_id Int    @id @default(autoincrement())
+  product           Product @relation(fields: [product_id], references: [product_id])
+  product_id        Int
+  option            Option  @relation(fields: [option_id], references: [option_id])
+  option_id         Int
+
+  price             Int
+
+  @@unique([product_id, option_id])
+}
+
+model Order {
+  order_id   Int           @id @default(autoincrement())
+  date       DateTime
+  address    String
+  payment    String
+  memo       String?
+
+  details    OrderDetail[]
+}
+
+model OrderDetail {
+  order_detail_id Int       @id @default(autoincrement())
+  order           Order     @relation(fields: [order_id], references: [order_id])
+  order_id        Int
+  product         Product   @relation(fields: [product_id], references: [product_id])
+  product_id      Int
+  quantity        Int
+
+  options         OrderDetailOption[]
+}
+
+model OrderDetailOption {
+  order_detail_option_id Int         @id @default(autoincrement())
+  order_detail           OrderDetail @relation(fields: [order_detail_id], references: [order_detail_id])
+  order_detail_id        Int
+  option                 Option      @relation(fields: [option_id], references: [option_id])
+  option_id              Int
+}
