@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { Navbar } from "@/components/Navbar";
-import { ProductCard } from "@/components/ProductCard";
-import { useProductStore } from "@/store/product-store";
+import { useEffect } from "react"
+import { Navbar } from "@/components/Navbar"
+import { ProductCard } from "@/components/ProductCard"
+import { useProductStore } from "@/store/product-store"
 
 export default function HomePage() {
-  const { products, fetchProducts } = useProductStore();
+  const { products, fetchProducts } = useProductStore()
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    fetchProducts()
+  }, [fetchProducts])
 
   return (
     <>
@@ -24,5 +24,5 @@ export default function HomePage() {
         </div>
       </main>
     </>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import '@/styles/globals.css'
-import type { Metadata } from 'next'
+import "@/styles/globals.css"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Order Management Web',
-  description: 'Manage your product orders efficiently',
+  title: "Order Management Web",
+  description: "Manage your product orders efficiently",
 }
 
 export default function RootLayout({
@@ -14,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

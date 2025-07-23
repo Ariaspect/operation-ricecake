@@ -1,4 +1,4 @@
-export type OptionType = 'slice' | 'wrap' | 'addition'
+export type OptionType = "slice" | "wrap" | "addition"
 
 export interface Product {
   product_id: number
