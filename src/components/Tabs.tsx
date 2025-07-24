@@ -4,19 +4,18 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
 
-const tabs = [
-  { label: "상품 관리", href: "/admin/product" },
-  { label: "옵션 관리", href: "/admin/option" },
-  { label: "통계 관리", href: "/admin/stats" },
-]
-
 export function AdminTabs() {
   const pathname = usePathname()
+  const adminTabs = [
+    { label: "상품 관리", href: "/admin/product" },
+    { label: "옵션 관리", href: "/admin/option" },
+    { label: "통계 관리", href: "/admin/stats" },
+  ]
 
   return (
     <div className="border-b border-gray-200">
       <ul className="flex gap-6 text-sm font-medium">
-        {tabs.map((tab) => (
+        {adminTabs.map((tab) => (
           <li key={tab.href}>
             <Link
               href={tab.href}
