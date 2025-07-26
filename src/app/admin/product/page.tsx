@@ -19,7 +19,9 @@ export default function AdminProductPage() {
 
   const handleModalClose = () => {
     setShowModal(false)
-    setEditTarget(null)
+    setTimeout(() => {
+      setEditTarget(null)
+    }, 150)
   }
 
   const handleAddUpdate = (updated: Product) => {
