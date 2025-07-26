@@ -13,14 +13,14 @@ export function AdminTabs() {
   ]
 
   return (
-    <div className="border-b border-gray-200">
+    <div className="pb-1 border-b border-gray-200">
       <ul className="flex gap-6 text-sm font-medium">
         {adminTabs.map((tab) => (
           <li key={tab.href}>
             <Link
               href={tab.href}
               className={clsx(
-                "pb-2 transition-colors",
+                "pb-1 transition-colors",
                 pathname.startsWith(tab.href)
                   ? "text-black border-b-2 border-black"
                   : "text-gray-500 hover:text-black"
