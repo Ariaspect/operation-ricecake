@@ -1,12 +1,15 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 
+type NextAPIParams = { params: { id: string } }
+
 // GET /api/products/:id → 특정 상품 조회
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: NextAPIParams
 ) {
-  const product_id = Number(params.id)
+  const { id } = await params
+  const product_id = Number(id)
 
   try {
     const product = await prisma.product.findUnique({
@@ -36,9 +39,9 @@ export async function GET(
 // PATCH /api/products/:id → 상품 수정
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: NextAPIParams
 ) {
-  const { id } = context.params
+  const { id } = await params
   const product_id = Number(id)
 
   const body = await req.json()
@@ -58,9 +61,9 @@ export async function PATCH(
 // DELETE /api/products/:id → 상품 삭제
 export async function DELETE(
   _: NextRequest,
-  context: { params: { id: string } }
+  { params }: NextAPIParams
 ) {
-  const { id } = context.params
+  const { id } = await params
   const product_id = Number(id)
 
   try {
