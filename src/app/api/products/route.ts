@@ -1,9 +1,13 @@
 import { prisma } from "@/lib/prisma"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 // GET /api/products → 모든 상품 조회
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const available = searchParams.get("available")
+
   const products = await prisma.product.findMany({
+    where: available === "true" ? { available: true } : {},
     include: {
       available_options: {
         include: {
@@ -16,11 +20,12 @@ export async function GET() {
   return NextResponse.json(products)
 }
 
+
 // POST /api/products → 상품 추가
 export async function POST(req: Request) {
   const body = await req.json()
 
-  const { name, price, available, optionIds, optionPrices } = body
+  const { name, price, description, image_url, available, options: selectedOptions = {} } = body
 
   if (!name || price == null || available == null) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 })
@@ -30,12 +35,21 @@ export async function POST(req: Request) {
     data: {
       name,
       price,
+      description,
+      image_url,
       available,
       available_options: {
-        create: optionIds.map((optionId: number, idx: number) => ({
-          option: { connect: { option_id: optionId } },
-          price: optionPrices?.[idx] ?? 0,
+        create: Object.entries(selectedOptions).map(([option_id, data]) => ({
+          option: { connect: { option_id: Number(option_id) } },
+          price: (data as { price: number }).price,
         })),
+      },
+    },
+    include: {
+      available_options: {
+        include: {
+          option: true,
+        },
       },
     },
   })
