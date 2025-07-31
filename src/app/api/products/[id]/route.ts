@@ -42,6 +42,8 @@ export async function PATCH(req: NextRequest, { params }: NextAPIParams) {
   const {
     name,
     price,
+    description,
+    image_url,
     available,
     options: selectedOptions = {},
   } = body
@@ -53,10 +55,12 @@ export async function PATCH(req: NextRequest, { params }: NextAPIParams) {
       })
 
       const product = await tx.product.update({
-      where: { product_id },
+        where: { product_id },
         data: {
           name,
           price,
+          description,
+          image_url,
           available,
           available_options: {
             create: Object.entries(selectedOptions).map(

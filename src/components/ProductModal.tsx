@@ -27,8 +27,10 @@ export function ProductModal({
 }: Props) {
   const [name, setName] = useState("")
   const [price, setPrice] = useState(0)
+  const [description, setDescription] = useState<string | null>("")
+  const [imageUrl, setImageUrl] = useState<string | null>("")
   const [available, setAvailable] = useState(true)
-const [options, setOptions] = useState<Option[]>([])
+  const [options, setOptions] = useState<Option[]>([])
   const [selectedOptions, setSelectedOptions] = useState<
     Record<number, { price: number }>
   >({})
@@ -39,10 +41,14 @@ const [options, setOptions] = useState<Option[]>([])
     if (initial) {
       setName(initial.name)
       setPrice(initial.price)
+      setDescription(initial.description)
+      setImageUrl(initial.image_url)
       setAvailable(initial.available)
     } else {
       setName("")
       setPrice(0)
+      setDescription("")
+      setImageUrl("")
       setAvailable(true)
       setSelectedOptions({})
     }
@@ -100,6 +106,8 @@ const [options, setOptions] = useState<Option[]>([])
       body: JSON.stringify({
         name,
         price,
+        description,
+        image_url: imageUrl,
         available,
         options: selectedOptions,
       }),
@@ -145,6 +153,17 @@ const [options, setOptions] = useState<Option[]>([])
             placeholder="가격"
             value={price}
             onChange={(e) => setPrice(+e.target.value)}
+            required
+          />
+          <Input
+            placeholder="간단한 설명"
+            value={description ?? ''}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <Input
+            placeholder="이미지 URL"
+            value={imageUrl ?? ''}
+            onChange={(e) => setImageUrl(e.target.value)}
           />
           <label className="flex gap-2 text-sm">
             <input
