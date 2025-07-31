@@ -17,6 +17,8 @@ model Product {
   product_id        Int              @id @default(autoincrement())
   name              String
   price             Int
+  description       String?
+  image_url         String?
   available         Boolean
 
   available_options ProductOption[]

@@ -4,8 +4,10 @@ export interface Product {
   product_id: number
   name: string
   price: number
+  description: string | null
+  image_url: string | null
   available: boolean
-  available_options?: ProductOption[]
+  available_options?: (ProductOption & { option: Option })[]
 }
 
 export interface Option {
