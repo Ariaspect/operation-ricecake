@@ -50,7 +50,7 @@ export default function AdminProductPage() {
           <ProductCard
             key={product.product_id}
             product={product}
-            onEdit={() => {
+            onClick={() => {
               setEditTarget(product)
               setShowModal(true)
             }}

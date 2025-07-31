@@ -50,7 +50,7 @@ export default function AdminOptionPage() {
           <OptionCard
             key={option.option_id}
             option={option}
-            onEdit={() => {
+            onClick={() => {
               setEditTarget(option)
               setShowModal(true)
             }}

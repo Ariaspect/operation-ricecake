@@ -5,12 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface OptionCardProps {
   option: Option
-  onEdit: () => void
+  onClick: () => void
 }
 
-export function OptionCard({ option, onEdit }: OptionCardProps) {
+export function OptionCard({ option, onClick }: OptionCardProps) {
   return (
-    <Card onClick={onEdit} className="cursor-pointer">
+    <Card onClick={onClick} className="cursor-pointer">
       <CardHeader>
         <CardTitle>{option.name}</CardTitle>
       </CardHeader>
