@@ -37,9 +37,9 @@ model Option {
 
 model ProductOption {
   product_option_id Int    @id @default(autoincrement())
-  product           Product @relation(fields: [product_id], references: [product_id])
+  product           Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
   product_id        Int
-  option            Option  @relation(fields: [option_id], references: [option_id])
+  option            Option  @relation(fields: [option_id], references: [option_id], onDelete: Cascade)
   option_id         Int
 
   price             Int
@@ -59,9 +59,9 @@ model Order {
 
 model OrderDetail {
   order_detail_id Int       @id @default(autoincrement())
-  order           Order     @relation(fields: [order_id], references: [order_id])
+  order           Order     @relation(fields: [order_id], references: [order_id], onDelete: Cascade)
   order_id        Int
-  product         Product   @relation(fields: [product_id], references: [product_id])
+  product         Product   @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
   product_id      Int
   quantity        Int
 
@@ -70,8 +70,8 @@ model OrderDetail {
 
 model OrderDetailOption {
   order_detail_option_id Int         @id @default(autoincrement())
-  order_detail           OrderDetail @relation(fields: [order_detail_id], references: [order_detail_id])
+  order_detail           OrderDetail @relation(fields: [order_detail_id], references: [order_detail_id], onDelete: Cascade)
   order_detail_id        Int
-  option                 Option      @relation(fields: [option_id], references: [option_id])
+  option                 Option      @relation(fields: [option_id], references: [option_id], onDelete: Cascade)
   option_id              Int
 }
