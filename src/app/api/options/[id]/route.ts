@@ -6,10 +6,11 @@ type NextAPIParams = { params: { id: string } }
 // GET /api/options/:id → 단일 옵션 조회
 export async function GET(_: NextRequest, { params }: NextAPIParams) {
   const { id } = await params
+  const option_id = Number(id)
 
   try {
     const option = await prisma.option.findUnique({
-      where: { option_id: Number(id) },
+      where: { option_id },
     })
 
     if (!option) {

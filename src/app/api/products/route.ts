@@ -20,12 +20,18 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(products)
 }
 
-
 // POST /api/products → 상품 추가
 export async function POST(req: Request) {
   const body = await req.json()
 
-  const { name, price, description, image_url, available, options: selectedOptions = {} } = body
+  const {
+    name,
+    price,
+    description,
+    image_url,
+    available,
+    options: selectedOptions = {},
+  } = body
 
   if (!name || price == null || available == null) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 })

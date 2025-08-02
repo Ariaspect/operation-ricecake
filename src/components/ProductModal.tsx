@@ -73,7 +73,7 @@ export function ProductModal({
           acc[option.option_id] = { price: option.price }
           return acc
         },
-        {} as Record<number, { price: number }>,
+        {} as Record<number, { price: number }>
       )
       setSelectedOptions(initialSelectedOptions)
     }
@@ -161,12 +161,12 @@ export function ProductModal({
           />
           <Input
             placeholder="간단한 설명"
-            value={description ?? ''}
+            value={description ?? ""}
             onChange={(e) => setDescription(e.target.value)}
           />
           <Input
             placeholder="이미지 URL"
-            value={imageUrl ?? ''}
+            value={imageUrl ?? ""}
             onChange={(e) => setImageUrl(e.target.value)}
           />
           <label className="flex gap-2 text-sm">

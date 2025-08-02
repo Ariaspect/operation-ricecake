@@ -1,9 +1,8 @@
-
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server"
+import { prisma } from "@/lib/prisma"
 
 export async function POST(req: Request) {
-  const { productId, options, quantity } = await req.json();
+  const { productId, options, quantity } = await req.json()
 
   try {
     const order = await prisma.order.create({
@@ -12,7 +11,7 @@ export async function POST(req: Request) {
         address: "kiosk",
         payment: "cash",
       },
-    });
+    })
 
     const orderDetail = await prisma.orderDetail.create({
       data: {
@@ -25,14 +24,14 @@ export async function POST(req: Request) {
           })),
         },
       },
-    });
+    })
 
-    return NextResponse.json(orderDetail);
+    return NextResponse.json(orderDetail)
   } catch (error) {
-    console.error(error);
+    console.error(error)
     return NextResponse.json(
       { error: "Failed to create order" },
       { status: 500 }
-    );
+    )
   }
 }

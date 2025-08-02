@@ -1,47 +1,38 @@
-"use client";
+"use client"
 
-import { Product, OptionType, ProductOption } from "@/types/db";
-import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
-import Image from "next/image";
+import { Product, OptionType, ProductOption } from "@/types/db"
+import { useState, useEffect } from "react"
+import { Button } from "./ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
+import Image from "next/image"
 
-const OPTION_TYPES: OptionType[] = ["slice", "wrap", "addition"];
+const OPTION_TYPES: OptionType[] = ["slice", "wrap", "addition"]
 
 interface OrderModalProps {
-  product: Product;
-  isOpen: boolean;
-  onClose: () => void;
+  product: Product
+  isOpen: boolean
+  onClose: () => void
 }
 
 export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
-  const [selectedOptions, setSelectedOptions] = useState<ProductOption[]>([]);
-  const [totalPrice, setTotalPrice] = useState(product.price);
+  const [selectedOptions, setSelectedOptions] = useState<ProductOption[]>([])
+  const [totalPrice, setTotalPrice] = useState(product.price)
 
   useEffect(() => {
     const optionsPrice = selectedOptions.reduce(
-      (acc, option) =>  acc + option.price,
+      (acc, option) => acc + option.price,
       0
-    );
-    setTotalPrice(product.price + optionsPrice);
-  }, [selectedOptions, product.price]);
+    )
+    setTotalPrice(product.price + optionsPrice)
+  }, [selectedOptions, product.price])
 
   const handleOptionToggle = (option: ProductOption) => {
     setSelectedOptions((prev) =>
-      prev.some(
-        (item) => item.option_id === option.option_id
-      )
-        ? prev.filter(
-            (item) => item.option_id !== option.option_id
-          )
+      prev.some((item) => item.option_id === option.option_id)
+        ? prev.filter((item) => item.option_id !== option.option_id)
         : [...prev, option]
-    );
-  };
+    )
+  }
 
   const handleOrder = async () => {
     try {
@@ -55,12 +46,12 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
           options: selectedOptions.map((o) => o.option_id),
           quantity: 1, // Assuming quantity is always 1 for now
         }),
-      });
-      onClose();
+      })
+      onClose()
     } catch (error) {
-      console.error("Failed to place order", error);
+      console.error("Failed to place order", error)
     }
-  };
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -87,7 +78,9 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             <h3 className="text-lg font-semibold">Options</h3>
             {OPTION_TYPES.map((type) => (
               <div key={type}>
-                <h4 className="text-md font-semibold capitalize mb-2">{type}</h4>
+                <h4 className="text-md font-semibold capitalize mb-2">
+                  {type}
+                </h4>
                 <div className="grid grid-cols-3 gap-2">
                   {product.available_options
                     ?.filter(({ option }) => option.type === type)
@@ -96,9 +89,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                         key={productOption.option_id}
                         variant={
                           selectedOptions.some(
-                            (item) =>
-                              item.option_id ===
-                              productOption.option_id
+                            (item) => item.option_id === productOption.option_id
                           )
                             ? "default"
                             : "outline"
@@ -119,5 +110,5 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
