@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Option } from "@/types/db"
+import { Option, OptionType } from "@/types/db"
 import { OptionCard } from "@/components/OptionCard"
 import { OptionModal } from "@/components/OptionModal"
 import { Button } from "@/components/ui/button"
+
+const OPTION_TYPES: OptionType[] = ["slice", "wrap", "addition"]
 
 export default function AdminOptionPage() {
   const [options, setOptions] = useState<Option[]>([])
@@ -45,16 +47,25 @@ export default function AdminOptionPage() {
         <Button onClick={() => setShowModal(true)}>+ 옵션 추가</Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {options.map((option) => (
-          <OptionCard
-            key={option.option_id}
-            option={option}
-            onClick={() => {
-              setEditTarget(option)
-              setShowModal(true)
-            }}
-          />
+      <div className="space-y-8">
+        {OPTION_TYPES.map((type) => (
+          <section key={type}>
+            <h2 className="text-xl font-semibold mb-4 capitalize">{type}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {options
+                .filter((option) => option.type === type)
+                .map((option) => (
+                  <OptionCard
+                    key={option.option_id}
+                    option={option}
+                    onClick={() => {
+                      setEditTarget(option)
+                      setShowModal(true)
+                    }}
+                  />
+                ))}
+            </div>
+          </section>
         ))}
       </div>
 

@@ -8,7 +8,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
-import { Product, Option } from "@/types/db"
+import { Product, Option, OptionType } from "@/types/db"
+
+const OPTION_TYPES: OptionType[] = ["slice", "wrap", "addition"]
 
 type Props = {
   open: boolean
@@ -77,21 +79,23 @@ export function ProductModal({
     }
   }, [initial?.available_options])
 
-  const handleOptionChange = (
-    optionId: number,
-    isChecked: boolean,
-    price?: number,
-  ) => {
+  const handleOptionToggle = (option: Option) => {
     setSelectedOptions((prev) => {
       const newSelected = { ...prev }
-      if (isChecked) {
-        const option = options.find((o) => o.option_id === optionId)
-        newSelected[optionId] = { price: price ?? option?.price ?? 0 }
+      if (newSelected[option.option_id]) {
+        delete newSelected[option.option_id]
       } else {
-        delete newSelected[optionId]
+        newSelected[option.option_id] = { price: option.price }
       }
       return newSelected
     })
+  }
+
+  const handlePriceChange = (optionId: number, newPrice: number) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [optionId]: { price: newPrice },
+    }))
   }
 
   const handleSubmit = async () => {
@@ -174,42 +178,53 @@ export function ProductModal({
             판매 중
           </label>
 
-          <div>
+          <div className="space-y-4">
             <h3 className="text-lg font-medium">옵션 선택</h3>
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              {options.map((option) => (
-                <div key={option.option_id} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id={`option-${option.option_id}`}
-                    checked={!!selectedOptions[option.option_id]}
-                    onChange={(e) =>
-                      handleOptionChange(option.option_id, e.target.checked)
-                    }
-                  />
-                  <label htmlFor={`option-${option.option_id}`}>
-                    {option.name} (+
-                    {selectedOptions[option.option_id]?.price ?? option.price}
-                    원)
-                  </label>
-                  {selectedOptions[option.option_id] && (
-                    <Input
-                      type="number"
-                      className="w-24 h-8"
-                      placeholder="가격 (덮어쓰기)"
-                      value={selectedOptions[option.option_id].price}
-                      onChange={(e) =>
-                        handleOptionChange(
-                          option.option_id,
-                          true,
-                          +e.target.value,
-                        )
-                      }
-                    />
-                  )}
+            {OPTION_TYPES.map((type) => (
+              <div key={type}>
+                <h4 className="text-md font-semibold capitalize mb-2">
+                  {type}
+                </h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {options
+                    .filter((o) => o.type === type)
+                    .map((option) => (
+                      <div
+                        key={option.option_id}
+                        className="flex flex-col gap-2"
+                      >
+                        <Button
+                          variant={
+                            selectedOptions[option.option_id]
+                              ? "default"
+                              : "outline"
+                          }
+                          onClick={() => handleOptionToggle(option)}
+                        >
+                          {option.name} (+
+                          {selectedOptions[option.option_id]?.price ??
+                            option.price}
+                          원)
+                        </Button>
+                        {selectedOptions[option.option_id] && (
+                          <Input
+                            type="number"
+                            className="h-8"
+                            placeholder="가격 (덮어쓰기)"
+                            value={selectedOptions[option.option_id].price}
+                            onChange={(e) =>
+                              handlePriceChange(
+                                option.option_id,
+                                +e.target.value
+                              )
+                            }
+                          />
+                        )}
+                      </div>
+                    ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 
