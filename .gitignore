@@ -1,5 +1,7 @@
 *.db
-/src/components/ui/*
+# /src/components/ui/*
+
+.vscode/
 
 # dependencies
 /node_modules
