@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 
-type NextAPIParams = { params: { id: string } }
+type NextAPIParams = { params: Promise<{ id: string }> }
 
 // GET /api/products/:id → 특정 상품 조회
 export async function GET(_: NextRequest, { params }: NextAPIParams) {

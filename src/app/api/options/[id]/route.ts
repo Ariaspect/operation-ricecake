@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 
-type NextAPIParams = { params: { id: string } }
+type NextAPIParams = { params: Promise<{ id: string }> }
 
 // GET /api/options/:id → 단일 옵션 조회
 export async function GET(_: NextRequest, { params }: NextAPIParams) {
