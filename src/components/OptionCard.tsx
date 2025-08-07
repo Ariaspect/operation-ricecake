@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 interface OptionCardProps {
   option: Option
   onClick: () => void
+  onDelete: () => void
 }
 
 export function OptionCard({ option, onClick }: OptionCardProps) {

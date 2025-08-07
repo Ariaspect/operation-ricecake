@@ -12,11 +12,11 @@ import { Product, Option, OptionType, Category } from "@/types/db"
 
 const OPTION_TYPES: OptionType[] = ["slice", "wrap", "addition"]
 
-type Props = {
+type ProductModalProps = {
   open: boolean
   onClose: () => void
   onSuccess: (product: Product) => void
-  onDelete: (productId: number) => void
+  onDeleteTrigger: (productId: number) => void
   initial?: Product | null
 }
 
@@ -24,9 +24,9 @@ export function ProductModal({
   open,
   onClose,
   onSuccess,
-  onDelete,
+  onDeleteTrigger,
   initial,
-}: Props) {
+}: ProductModalProps) {
   const [name, setName] = useState("")
   const [price, setPrice] = useState(0)
   const [description, setDescription] = useState<string | null>("")
@@ -143,23 +143,6 @@ export function ProductModal({
     onSuccess(data)
   }
 
-  const handleDelete = async () => {
-    const productId = initial!.product_id
-
-    const confirmed = confirm("정말로 이 상품을 삭제하시겠습니까?")
-    if (!confirmed) return
-
-    const res = await fetch(`/api/products/${productId}`, {
-      method: "DELETE",
-    })
-
-    if (res.ok) {
-      onDelete(productId)
-    } else {
-      console.error("Failed to delete product")
-    }
-  }
-
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
@@ -271,13 +254,15 @@ export function ProductModal({
 
         <DialogFooter>
           <Button onClick={handleSubmit}>{isEdit ? "저장" : "등록"}</Button>
-          <Button
-            type="button"
-            variant="destructive"
-            onClick={() => handleDelete()}
-          >
-            삭제
-          </Button>
+          {isEdit && (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => onDeleteTrigger(initial.product_id)}
+            >
+              삭제
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -16,7 +16,7 @@ interface OptionModalProps {
   onClose: () => void
   initial: Option | null
   onSuccess: (option: Option) => void
-  onDelete?: (optionId: number) => void
+  onDeleteTrigger: (optionId: number) => void
 }
 
 export function OptionModal({
@@ -24,7 +24,7 @@ export function OptionModal({
   onClose,
   initial,
   onSuccess,
-  onDelete,
+  onDeleteTrigger,
 }: OptionModalProps) {
   const [name, setName] = useState("")
   const [type, setType] = useState<OptionType>("slice")
@@ -59,18 +59,6 @@ export function OptionModal({
     }
   }
 
-  const handleDelete = async () => {
-    if (!initial) return
-
-    const res = await fetch(`/api/options/${initial.option_id}`, {
-      method: "DELETE",
-    })
-
-    if (res.ok) {
-      onDelete?.(initial.option_id)
-    }
-  }
-
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
@@ -102,11 +90,11 @@ export function OptionModal({
             required
           />
           <div className="flex justify-end gap-2">
-            {initial && onDelete && (
+            {initial && (
               <Button
                 type="button"
                 variant="destructive"
-                onClick={handleDelete}
+                onClick={() => onDeleteTrigger(initial.option_id)}
               >
                 삭제
               </Button>
