@@ -8,6 +8,21 @@ export interface Product {
   image_url: string | null
   available: boolean
   available_options?: (ProductOption & { option: Option })[]
+  categories?: (ProductCategory & { category: Category })[]
+}
+
+export interface Category {
+  category_id: number
+  name: string
+  _count?: {
+    products: number
+  }
+}
+
+export interface ProductCategory {
+  product_category_id: number
+  product_id: number
+  category_id: number
 }
 
 export interface Option {
