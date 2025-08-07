@@ -14,6 +14,11 @@ export async function GET(req: NextRequest) {
           option: true,
         },
       },
+      categories: {
+        include: {
+          category: true,
+        },
+      },
     },
   })
 
@@ -31,6 +36,7 @@ export async function POST(req: Request) {
     image_url,
     available,
     options: selectedOptions = {},
+    categories: selectedCategories = [],
   } = body
 
   if (!name || price == null || available == null) {
@@ -50,11 +56,21 @@ export async function POST(req: Request) {
           price: (data as { price: number }).price,
         })),
       },
+      categories: {
+        create: selectedCategories.map((category_id: number) => ({
+          category: { connect: { category_id } },
+        })),
+      },
     },
     include: {
       available_options: {
         include: {
           option: true,
+        },
+      },
+      categories: {
+        include: {
+          category: true,
         },
       },
     },

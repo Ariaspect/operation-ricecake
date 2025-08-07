@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
-import { Product, Option, OptionType } from "@/types/db"
+import { Product, Option, OptionType, Category } from "@/types/db"
 
 const OPTION_TYPES: OptionType[] = ["slice", "wrap", "addition"]
 
@@ -36,6 +36,8 @@ export function ProductModal({
   const [selectedOptions, setSelectedOptions] = useState<
     Record<number, { price: number }>
   >({})
+  const [categories, setCategories] = useState<Category[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([])
 
   const isEdit = !!initial
 
@@ -46,6 +48,9 @@ export function ProductModal({
       setDescription(initial.description)
       setImageUrl(initial.image_url)
       setAvailable(initial.available)
+      setSelectedCategories(
+        initial.categories?.map((c) => c.category.category_id) || []
+      )
     } else {
       setName("")
       setPrice(0)
@@ -53,6 +58,7 @@ export function ProductModal({
       setImageUrl("")
       setAvailable(true)
       setSelectedOptions({})
+      setSelectedCategories([])
     }
   }, [initial])
 
@@ -63,7 +69,14 @@ export function ProductModal({
       setOptions(data)
     }
 
+    const fetchCategories = async () => {
+      const res = await fetch("/api/categories")
+      const data = await res.json()
+      setCategories(data)
+    }
+
     fetchOptions()
+    fetchCategories()
   }, [])
 
   useEffect(() => {
@@ -91,6 +104,14 @@ export function ProductModal({
     })
   }
 
+  const handleCategoryToggle = (categoryId: number) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
+    )
+  }
+
   const handlePriceChange = (optionId: number, newPrice: number) => {
     setSelectedOptions((prev) => ({
       ...prev,
@@ -114,6 +135,7 @@ export function ProductModal({
         image_url: imageUrl,
         available,
         options: selectedOptions,
+        categories: selectedCategories,
       }),
     })
 
@@ -177,6 +199,25 @@ export function ProductModal({
             />
             판매 중
           </label>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium">카테고리 선택</h3>
+            <div className="grid grid-cols-3 gap-2">
+              {categories.map((category) => (
+                <Button
+                  key={category.category_id}
+                  variant={
+                    selectedCategories.includes(category.category_id)
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() => handleCategoryToggle(category.category_id)}
+                >
+                  {category.name}
+                </Button>
+              ))}
+            </div>
+          </div>
 
           <div className="space-y-4">
             <h3 className="text-lg font-medium">옵션 선택</h3>

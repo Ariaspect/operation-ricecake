@@ -9,6 +9,7 @@ export function AdminTabs() {
   const adminTabs = [
     { label: "상품 관리", href: "/admin/product" },
     { label: "옵션 관리", href: "/admin/option" },
+    { label: "카테고리 관리", href: "/admin/category" },
     { label: "통계 관리", href: "/admin/stats" },
   ]
 

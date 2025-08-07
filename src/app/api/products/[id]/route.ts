@@ -17,6 +17,11 @@ export async function GET(_: NextRequest, { params }: NextAPIParams) {
             option: true,
           },
         },
+        categories: {
+          include: {
+            category: true,
+          },
+        },
       },
     })
 
@@ -46,11 +51,16 @@ export async function PATCH(req: NextRequest, { params }: NextAPIParams) {
     image_url,
     available,
     options: selectedOptions = {},
+    categories: selectedCategories = [],
   } = body
 
   try {
     const updated = await prisma.$transaction(async (tx) => {
       await tx.productOption.deleteMany({
+        where: { product_id },
+      })
+
+      await tx.productCategory.deleteMany({
         where: { product_id },
       })
 
@@ -70,11 +80,21 @@ export async function PATCH(req: NextRequest, { params }: NextAPIParams) {
               })
             ),
           },
+          categories: {
+            create: selectedCategories.map((category_id: number) => ({
+              category: { connect: { category_id } },
+            })),
+          },
         },
         include: {
           available_options: {
             include: {
               option: true,
+            },
+          },
+          categories: {
+            include: {
+              category: true,
             },
           },
         },
